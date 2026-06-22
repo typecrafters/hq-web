@@ -1,33 +1,63 @@
 <script lang="ts">
-    interface ProjectCardProps {
-        title?: string;
-        subtitle?: string;
-        thumbnailUrl?: string;
-        status?: string;
-        description?: string;
-    }
+    import type { Project } from "$common/interface/Project";
+    import { ProjectStatus } from "$enum/ProjectStatus";
+
+    const statusColors: Map<ProjectStatus, string> = new Map([
+        [ProjectStatus.Planning, "bg-sky-600"],
+        [ProjectStatus.Development, "bg-teal-600"],
+        [ProjectStatus.Testing, "bg-violet-500"],
+        [ProjectStatus.EarlyAccess, "bg-yellow-600"],
+        [ProjectStatus.Available, "bg-emerald-600"],
+        [ProjectStatus.Paused, "bg-gray-600"],
+        [ProjectStatus.Canceled, "bg-red-600/70"],
+    ]);
 
     const {
-        title = "FateBound",
-        subtitle = "Action/Adventure",
-        thumbnailUrl = "/img/placeholder.svg",
-        status = "In development",
-        description = "Embark on an adventure, exploring the darkest, narrowest corners in search for treasure",
-    }: ProjectCardProps = $props();
+        name,
+        description,
+        status,
+        content,
+        imageUrl,
+        tags,
+        href,
+    }: Omit<Project, "id"> = $props();
 </script>
 
-<figure class="w-full relative rounded-lg overflow-hidden shadow-md shadow-paper-600">
-    <span class="absolute top-4 right-4 rounded-full px-2 py-1 text-sm font-mono">
-        {status}
-    </span>
-    <picture class="aspect-8/5 w-full block overflow-hidden">
-        <img src={thumbnailUrl} alt={title} class="w-full h-full object-cover object-center" />
-    </picture>
-    <figcaption class="bg-white p-6 flex flex-col gap-4">
-        <div class="flex items-center">
-            <h3 class="flex-1 text-xl font-semibold">{title}</h3>
-            <span class="text-ink-600 text-sm font-mono">{subtitle}</span>
+<div class="group w-full bg-secondary-600/20 flex flex-col gap-6 py-6 relative border-2 border-secondary-700 backdrop-blur-md rounded-lg hover:brightness-105 duration-200">
+    <span
+        role="presentation"
+        class="absolute z-5 top-8 left-4 px-3 py-0.5 font-semibold text-sm rounded {statusColors.get(status)}"
+    >{status}</span>
+    <figure class="w-full aspect-5/2 h-auto overflow-hidden group-hover:scale-y-105 duration-200">
+        <img
+            src={imageUrl}
+            alt={name}
+            class="w-full h-full object-cover object-center"
+        />
+    </figure>
+    <div class="w-full flex-1 flex flex-col items-start px-4 gap-4">
+        <div class="w-full">
+            <h3 class="text-3xl font-semibold text-left">{name}</h3>
+            <p class="text-left text-primary-400">{description}</p>
         </div>
-        <p class="flex-1 text-ink-600">{description}</p>
-    </figcaption>
-</figure>
+        <div class="flex-1">
+            <p class="text-left">{content}</p>
+        </div>
+        <div class="flex w-full justify-start gap-4 my-1 flex-wrap">
+            {#each tags as tag, i (i)}
+                <span class="px-3 py-0.5 bg-secondary-200 text-black rounded-lg font-medium text-sm">
+                    {tag}
+                </span>
+            {/each}
+        </div>
+        <div class="w-full">
+            <a
+                {href}
+                class="flex justify-center gap-2 bg-primary-600 hover:bg-primary-800 py-1.5 cursor-pointer rounded-lg duration-150"
+            >
+                <span>Learn More</span>
+                <i class="bi bi-box-arrow-up-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+</div>

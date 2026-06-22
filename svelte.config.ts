@@ -6,7 +6,9 @@ const config: Config = {
         adapter: adapter(),
         alias: {
             "$styles": "src/styles",
-            "$components": "src/components"
+            "$common": "src/common",
+            "$interface": "src/common/interface",
+            "$enum": "src/common/enum"
         }
     },
     compilerOptions: {

@@ -1,0 +1,1 @@
+<i class="bi bi-arrow-repeat absolute inset-1/2 animate-spin text-4xl z-40 shadow-sm"></i>

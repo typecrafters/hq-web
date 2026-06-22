@@ -1,43 +1,17 @@
 <script lang="ts">
-    interface TeamCardProps {
-        pfpUrl: string;
-        firstName: string;
-        lastName: string;
-        title: string;
-        description: string;
-    }
-
-    let {
-        pfpUrl = "/img/placeholder.svg",
-        firstName = "John",
-        lastName = "Doe",
-        title = "CEO & Founder",
-        description = [            
-            "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Velit",
-            "recusandae laborum, ipsam molestias aliquid tenetur nobis nisi",
-            "voluptates nesciunt eaque eveniet sapiente, deserunt aperiam nulla",
-            "harum esse amet accusantium dicta."
-        ].join(" "),
-    }: TeamCardProps = $props();
-
-    let fullName = $derived(`${firstName} ${lastName}`);
+    import type { TeamMember } from "$interface/TeamMember";
+    const { name, role, details, pictureUrl }: Omit<TeamMember, "id"> = $props();
 </script>
 
-<div class="bg-white w-full p-6 border border-ink-300 rounded-lg space-y-4">
-    <figure class="flex items-center gap-4">
-        <div class="rounded-full size-16 overflow-hidden bg-ink-400">
-            <img
-                src={pfpUrl}
-                alt="{fullName}'s profile"
-                class="w-full h-full object-cover object-center"
-            />
-        </div>
-        <figcaption class="font-mono">
-            <h3 class="text-xl font-semibold">{fullName}</h3>
-            <span class="text-sm text-signal-600">{title}</span>
-        </figcaption>
-    </figure>
-    <div class="text-ink-600">
-        <p class="line-clamp-3">{description}</p>
+<figure class="w-full p-4 flex flex-col gap-4 items-center border-2 border-secondary-700 bg-secondary-600/20 backdrop-blur-md rounded-lg">
+    <div class="w-32 h-32 aspect-square rounded-full flex justify-center items-center overflow-hidden">
+        <img src={pictureUrl} alt={`${name}'s profile`} class="w-full h-full" />
     </div>
-</div>
+    <figcaption class="flex flex-col gap-6">
+        <div>
+            <h3 class="text-xl font-semibold">{name}</h3>
+            <span class="text-primary-400">{role}</span>
+        </div>
+        <p class="flex-1">{details}</p>
+    </figcaption>
+</figure>
