@@ -14,16 +14,16 @@
         </p>
         <div class="flex gap-4">
             <a
-                href="/" 
-                class="flex items-center rounded-full px-4 py-4 border border-signal-500 bg-signal-500 text-ink-800 font-bold"
+                href="#projects" 
+                class="flex items-center rounded-full px-4 py-4 border border-signal-500 bg-signal-500 hover:border-signal-600 hover:bg-signal-600 duration-150 text-ink-800 font-bold"
             >
                 See our work
                 &nbsp;
                 <i class="bi bi-arrow-right"></i>
             </a>
             <a 
-                href="/" 
-                class="flex items-center rounded-full px-4 py-4 border border-ink-400"
+                href="#team" 
+                class="flex items-center rounded-full px-4 py-4 border border-ink-300 text-ink-200 hover:border-ink-400 hover:text-ink-300 duration-150"
             >
                 Meet the team
             </a>
