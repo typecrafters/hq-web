@@ -1,3 +1,9 @@
+<script lang="ts">
+    import { enhance } from "$app/forms";
+    import { Alert } from "$lib/alert.svelte";
+
+    let formEl: HTMLFormElement;
+</script>
 <section id="contact" class="w-full bg-ink-800 px-8 py-24">
     <div class="w-full max-w-7xl mx-auto">
         <div class="w-full flex gap-32">
@@ -14,7 +20,28 @@
                 </p>
             </div>
             <div class="flex-1 flex-col gap-4 flex items-start">
-                <form class="contents">
+                <form
+                    method="post"
+                    action="?/sendMessage"
+                    class="contents"
+                    bind:this={formEl}
+                    use:enhance={() => {
+                        return async ({ result, update }) => {
+                            if (result.type === "success") {
+                                Alert.success("Message sent — we'll be in touch soon.");
+                                formEl.reset();
+                            } else if (result.type === "failure") {
+                                Alert.error(
+                                    (result.data?.error as string) ??
+                                        "Something went wrong. Please try again."
+                                );
+                            } else if (result.type === "error") {
+                                Alert.error("Something went wrong. Please try again.");
+                            }
+                            await update({ reset: false });
+                        };
+                    }}
+                >
                     <div class="w-full space-y-2">
                         <label
                             for="fullName"
