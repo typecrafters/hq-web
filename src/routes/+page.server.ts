@@ -1,27 +1,42 @@
 import { API_URL } from "$env/static/private";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import type { Project } from "$common/interface/Project";
+import type { ListResponse } from "$common/interface/ListResponse";
+import type { User } from "$common/interface/User";
 
-export const load: PageServerLoad = async ({ fetch }) => {
-    const data: Record<string, unknown> = {};
+type FetchFunction = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+
+async function getList<T>(fetch: FetchFunction, path: string): Promise<T[]> {
     try {
-        const projectResponse = await fetch(`${API_URL}/projects/`, {
+        const response = await fetch(`${API_URL}/${path}`, {
             method: "GET",
             headers: {
                 Accept: "application/json"
             }
         });
 
-        if (!projectResponse.ok) {
-            throw new Error("Failed to load projects: " + projectResponse.statusText);
+        if (!response.ok) {
+            throw new Error(`GET '${path}' failed (${response.status} ${response.statusText}).`);
         }
-
-        data["projects"] = (await projectResponse.json()).items ?? [];
+        
+        const payload = await response.json() as ListResponse<T>;
+        return payload.items ?? [];
 
     } catch (error) {
-        console.error("Error loading projects:", error);
-        data["projects"] = [];
+        if (error instanceof Error) {
+            console.error(error.message);
+        }    
+        return [];
     }
+}
+
+export const load: PageServerLoad = async ({ fetch }) => {
+    const data: Record<string, unknown> = {};
+
+    data["projects"] = await getList<Project>(fetch, "projects/");
+    data["team"] = await getList<User>(fetch, "users/visible");
+    
     return data;
 }
 

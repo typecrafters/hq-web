@@ -35,6 +35,6 @@
     </picture>
     <figcaption class="flex-1 bg-white p-6 flex flex-col gap-4">
         <h3 class="flex-1 text-xl font-semibold">{title}</h3>
-        <p class="flex-1 text-ink-600 line-clamp-4">{summary}</p>
+        <p class="flex-1 text-ink-600">{description}</p>
     </figcaption>
 </figure>

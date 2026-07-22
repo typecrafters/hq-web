@@ -1,7 +1,11 @@
-<script>
+<script lang="ts">
     import TeamCard from "./TeamCard.svelte";
+    import { page } from "$app/state";
+    import type { User } from "$common/interface/User";
 
+    const team = $derived<User[]>(page.data.team);
 </script>
+
 <section id="team" class="w-full text-black bg-paper-100 px-8 py-24">
     <div class="w-full max-w-7xl mx-auto space-y-12">
         <div class="w-full max-w-3xl mr-auto space-y-4">
@@ -15,8 +19,16 @@
                 code together.
             </p>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <TeamCard />
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+            {#each team as member}
+                <TeamCard
+                    pfpUrl={member.profile_picture_url ?? "/img/placeholder.svg"}
+                    firstName={member.first_name}
+                    lastName={member.last_name}
+                    title={member.title ?? ""}
+                    description=""
+                />
+            {/each}
         </div>
     </div>
 </section>
