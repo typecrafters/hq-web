@@ -1,6 +1,29 @@
 import { API_URL } from "$env/static/private";
 import { fail } from "@sveltejs/kit";
-import type { Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async ({ fetch }) => {
+    const data: Record<string, unknown> = {};
+    try {
+        const projectResponse = await fetch(`${API_URL}/projects/`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json"
+            }
+        });
+
+        if (!projectResponse.ok) {
+            throw new Error("Failed to load projects: " + projectResponse.statusText);
+        }
+
+        data["projects"] = (await projectResponse.json()).items ?? [];
+
+    } catch (error) {
+        console.error("Error loading projects:", error);
+        data["projects"] = [];
+    }
+    return data;
+}
 
 export const actions: Actions = {
     sendMessage: async (event) => {
@@ -41,3 +64,29 @@ export const actions: Actions = {
         return { success: true };
     }
 };
+
+/*
+export const load: PageServerLoad = async ({ fetch, cookies, url }) => {
+    const offset = Math.max(0, Number(url.searchParams.get("offset")) || 0);
+
+    try {
+        const response = await fetch(`${API_URL}/projects?limit=${LIMIT}&offset=${offset}`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                cookie: cookies.getAll().map(c => `${c.name}=${c.value}`).join("; ")
+            }
+        });
+
+        if (!response.ok) {
+            return { projects: [], meta: { total: 0, limit: LIMIT, offset }, error: "Failed to load projects" };
+        }
+
+        const { items, meta } = await response.json();
+        return { projects: items ?? [], meta: meta ?? { total: 0, limit: LIMIT, offset }, error: null };
+    } catch (err) {
+        console.error("Error loading users:", err);
+        return { projects: [], meta: { total: 0, limit: LIMIT, offset }, error: "Could not connect to backend" };
+    }
+}
+*/

@@ -13,7 +13,7 @@ export default defineConfig({
 			adapter: adapter(),
 			alias: {
 				"$styles": "src/styles",
-				"$components": "src/components"
+				"$common": "src/common"
 			}
 		})
 	]
