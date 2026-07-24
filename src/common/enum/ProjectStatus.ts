@@ -1,7 +1,7 @@
 export enum ProjectStatus {
-    Development = "Development",
-    Planned = "Planned",
-    Review = "Review",
-    Archived = "Archived",
-    Canceled = "Canceled"
+    Development = "development",
+    Planned = "planned",
+    Review = "review",
+    Archived = "archived",
+    Canceled = "canceled"
 }
