@@ -3,5 +3,5 @@ export enum ProjectStatus {
     Planned = "Planned",
     Review = "Review",
     Archived = "Archived",
-    Cancelled = "Cancelled"
+    Canceled = "Canceled"
 }

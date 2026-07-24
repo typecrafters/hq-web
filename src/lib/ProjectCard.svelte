@@ -22,7 +22,7 @@
         [ProjectStatus.Planned]: "bg-secondary-100 text-secondary-700",
         [ProjectStatus.Review]: "bg-warning-100 text-warning-700",
         [ProjectStatus.Archived]: "bg-paper-200 text-paper-700",
-        [ProjectStatus.Cancelled]: "bg-error-100 text-error-700",
+        [ProjectStatus.Canceled]: "bg-error-100 text-error-700",
     };
 </script>
 
