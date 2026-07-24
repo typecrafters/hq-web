@@ -2,11 +2,8 @@
     import "$styles/index.css";
     import "bootstrap-icons/font/bootstrap-icons.min.css";
     import { page } from "$app/state";
-    import WebsiteHeader from "../lib/WebsiteHeader.svelte";
-    import WebsiteFooter from "$lib/WebsiteFooter.svelte";
 </script>
 
-<WebsiteHeader />
 <section class="w-full px-8 py-32">
     <div class="w-full max-w-7xl mx-auto flex flex-col items-start gap-4">
         <p class="font-mono text-signal-600 uppercase">
@@ -27,4 +24,3 @@
         </a>
     </div>
 </section>
-<WebsiteFooter />
